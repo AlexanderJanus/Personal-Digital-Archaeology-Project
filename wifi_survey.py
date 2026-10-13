@@ -8,18 +8,27 @@ import matplotlib.pyplot as plt
 
 SAMPLES, DELAY = 5, 0.5  # readings per point, seconds between them
 
+def is_wsl():
+    return platform.system() == "Linux" and "microsoft" in platform.release().lower()
+
+def netsh_rssi(cmd):
+    # netsh reports signal as %, convert roughly to dBm
+    out = subprocess.run([cmd, "wlan", "show", "interfaces"], capture_output=True, text=True).stdout
+    m = re.search(r"Signal\s*:\s*(\d+)%", out)
+    return int(m.group(1)) / 2 - 100 if m else None
+
 def get_rssi():
     os_name = platform.system()
+    if is_wsl():  # WSL has no Wi-Fi adapter; ask Windows via interop
+        return netsh_rssi("netsh.exe")
     if os_name == "Linux":
         out = subprocess.run(["iw", "dev", "wlan0", "link"], capture_output=True, text=True).stdout
         m = re.search(r"signal:\s*(-?\d+)", out)
     elif os_name == "Darwin":  # needs sudo
         out = subprocess.run(["sudo", "wdutil", "info"], capture_output=True, text=True).stdout
         m = re.search(r"RSSI\s*:\s*(-?\d+)", out)
-    else:  # Windows reports %, convert roughly to dBm
-        out = subprocess.run(["netsh", "wlan", "show", "interfaces"], capture_output=True, text=True).stdout
-        m = re.search(r"Signal\s*:\s*(\d+)%", out)
-        return int(m.group(1)) / 2 - 100 if m else None
+    else:
+        return netsh_rssi("netsh")
     return int(m.group(1)) if m else None
 
 def sample():
