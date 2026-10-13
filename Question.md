@@ -1,4 +1,4 @@
-# The quesiton 
+# The Question 
 ## How do the boundaries of "good signal" line up with the physical zoning of a space, such as walls, corners, floors, and furniture clusters?
 
 Architecture and spatial boundeies?
