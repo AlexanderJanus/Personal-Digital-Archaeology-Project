@@ -1,10 +1,7 @@
 1. Space profile (record once per space)
-Space ID
-Building
 Floor
 Room / specific area
 Pin on floor plan / grid reference
-Type of space: library, classroom, café, hallway, lounge, outdoor, etc.
 Number of seats
 Number of electrical outlets
 Outlet locations
@@ -16,7 +13,6 @@ Network type available (eduroam, guest, other)
 
 2. Visit log: time data
 Visit ID
-Space ID
 Date
 Day of week
 Start time
@@ -35,6 +31,7 @@ Packet loss
 Connection drops
 Time of any outage
 Cellular signal strength
+Location(gps coordinates)
 
 4. Visit log: human occupation
 Number of people present
@@ -93,7 +90,6 @@ Major exams/deadlines
 Time in semester
 Construction/noise
 Special events
-Availability of food/coffee
 
 10. Optional university-provided aggregate data
 If the university permits access:
